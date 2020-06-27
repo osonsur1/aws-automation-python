@@ -7,7 +7,6 @@ provider:
   region: us-east-2
   environment:
     SLACK_WEBHOOK_URL: ${file(../config.${self:provider.stage}.json):notifier.slack_webhook_url}
-  stage: dev
 
 functions:
   post-to-slack:
@@ -22,3 +21,6 @@ functions:
             detail:
               AutoScalingGroupName:
                 - "Notifon Group"
+
+plugins:
+  - serverless-python-requirements
