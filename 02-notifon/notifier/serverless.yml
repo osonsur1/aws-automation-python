@@ -3,12 +3,15 @@ service: notifon-notifier
 provider:
   name: aws
   runtime: python3.8
-  profile: pythonAutomation
+  profile: ${file(../config.${self:provider.stage}.json):notifier.profile}
   region: us-east-2
+  environment:
+    SLACK_WEBHOOK_URL: ${file(../config.${self:provider.stage}.json):notifier.slack_webhook_url}
+  stage: dev
 
 functions:
-  hello:
-    handler: handler.hello
+  post-to-slack:
+    handler: handler.post_to_slack
     events:
       - cloudwatchEvent:
           event:
